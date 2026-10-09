@@ -1,45 +1,86 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import { Tabs } from "expo-router";
+import React, { useState } from "react";
+import { Platform } from "react-native";
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { HapticTab } from "@/components/HapticTab";
+import { IconSymbol } from "@/components/ui/IconSymbol";
+import TabBarBackground from "@/components/ui/TabBarBackground";
+import { Colors } from "@/constants/constants";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { Provider } from "@/MyContext";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
+    <Provider>
+      <Tabs
+        initialRouteName="index"
+        screenOptions={{
+          tabBarActiveTintColor: Colors.accentColor,
+          headerShown: false,
+          tabBarButton: HapticTab,
+          tabBarBackground: TabBarBackground,
+          tabBarStyle: {
+            paddingTop: 10,
+            borderTopWidth: 0,
+            backgroundColor: Colors.GreyColor,
+            ...Platform.select({
+              ios: {
+                // Use a transparent background on iOS to show the blur effect
+                position: "absolute",
+              },
+              default: {},
+            }),
           },
-          default: {},
-        }),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
+      >
+        <Tabs.Screen
+          name="repetition/repetition"
+          options={{
+            tabBarLabel: () => null,
+            tabBarIcon: ({ color, focused }) => (
+              <MaterialIcons
+                name="repeat"
+                size={34}
+                color={focused ? Colors.accentColor : Colors.GreyWhiteColor}
+              />
+            ),
+          }}
+        />
+
+        <Tabs.Screen
+          name="index"
+          options={{
+            tabBarLabel: () => null,
+            tabBarIcon: ({ color, focused }) => (
+              <MaterialIcons
+                name="home"
+                size={34}
+                color={focused ? Colors.accentColor : Colors.GreyWhiteColor}
+              />
+            ),
+          }}
+        />
+
+        <Tabs.Screen
+          name="wordList"
+          options={{
+            tabBarLabel: () => null,
+            tabBarIcon: ({ color, focused }) => (
+              <MaterialIcons
+                name="storage"
+                size={34}
+                color={focused ? Colors.accentColor : Colors.GreyWhiteColor}
+              />
+            ),
+          }}
+        />
+
+        <Tabs.Screen name="repetition/cards" options={{ href: null }} />
+        <Tabs.Screen name="repetition/writeText" options={{ href: null }} />
+      </Tabs>
+    </Provider>
   );
 }

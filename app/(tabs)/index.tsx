@@ -1,75 +1,104 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet, View } from "react-native";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import MyButton from "@/components/MyButton";
+import MyText from "@/components/MyText";
+import MyTextInput from "@/components/MyTextInput";
+import { Colors, FontSizes } from "@/constants/constants";
+import { useContext, useState } from "react";
+import { saveWordDB } from "@/services/database";
+import { MyContext } from "@/MyContext";
 
 export default function HomeScreen() {
+  const [valueWordInp, setValueWordInp] = useState<string>("");
+  const [valueTranslateInp, setValueTranslateInp] = useState<string>("");
+  const context = useContext(MyContext);
+  if (!context) {
+    throw new Error("HomeScreen must be used within a MyContext.Provider");
+  }
+
+  const { refresh, setRefresh } = context;
+
+  async function SaveWord() {
+    const word = valueWordInp.trim();
+    const translation = valueTranslateInp.trim();
+
+    if (!(word && translation)) {
+      console.log("не все поля заполнены");
+      return;
+    }
+
+    await saveWordDB(word, translation);
+    setRefresh(true);
+    setValueTranslateInp("");
+    setValueWordInp("");
+  }
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View style={styles.Wrapper}>
+      <View style={styles.addBlock}>
+        <MyText style={styles.headerText}>Введите новое слово</MyText>
+        <View style={styles.inputBlock}>
+          <MyTextInput
+            placeholder="Слово"
+            style={styles.input}
+            value={valueWordInp}
+            onChangeText={(t) => setValueWordInp(t)}
+          ></MyTextInput>
+          <MyTextInput
+            placeholder="Перевод"
+            style={styles.input}
+            value={valueTranslateInp}
+            onChangeText={(t) => setValueTranslateInp(t)}
+          ></MyTextInput>
+        </View>
+        <MyButton style={styles.button} onPress={() => SaveWord()}>
+          Сохранить
+        </MyButton>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  Wrapper: {
+    alignItems: "center",
+    justifyContent: "flex-end",
+    flex: 1,
+    backgroundColor: Colors.backgroundColor,
+    paddingBottom: 10,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+
+  addBlock: {
+    width: "96%",
+    height: "92%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Colors.GreyColor,
+    borderRadius: 20,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+
+  headerText: {
+    width: 200,
+    textAlign: "center",
+    fontSize: FontSizes.LargeFSize,
+    marginBottom: 24,
+  },
+
+  inputBlock: {
+    gap: 6,
+  },
+
+  input: {
+    width: 280,
+    height: 60,
+    paddingStart: 20,
+    borderRadius: 16,
+  },
+
+  button: {
+    marginTop: 16,
+    width: 280,
+    height: 56,
+    borderRadius: 16,
   },
 });

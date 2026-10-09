@@ -2,9 +2,9 @@
   "expo": {
     "name": "QwiCards",
     "slug": "QwiCards",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/qwiCards.png",
     "scheme": "qwicards",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -12,8 +12,10 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.kamil.qwicards",
+      "versionCode": 3,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/qwiCards.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
@@ -21,22 +23,36 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/qwiCards.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/qwiCards.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "1379c20d-e2c6-41a5-8fd1-1eff0e6fe0c0"
+      }
+    },
+    "owner": "kamil2757",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/1379c20d-e2c6-41a5-8fd1-1eff0e6fe0c0"
     }
   }
 }
