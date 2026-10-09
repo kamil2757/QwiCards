@@ -1,50 +1,85 @@
-# Welcome to your Expo app 👋
+# 📱 QwiCards
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> Мобильное приложение (Android) для изучения иностранных слов методом интервального повторения с интерактивной AI-проверкой контекста. ⚠️ На данный момент приложение имеет множество багов, ИИ проверка не работает корректно
 
-## Get started
+![React Native](https://img.shields.io/badge/React_Native-0.79-61DAFB?logo=react)
+![Expo](https://img.shields.io/badge/Expo-SDK_53-000000?logo=expo)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript)
+![SQLite](https://img.shields.io/badge/SQLite-Offline_First-003B57?logo=sqlite)
+![Android](https://img.shields.io/badge/Platform-Android-3DDC84?logo=android)
 
-1. Install dependencies
+---
 
-   ```bash
+## 🎯 Идея и цель проекта
+
+**Идея:** Создать минималистичный и удобный аналог Quizlet без лишнего функционала, который помогает не просто зубрить слова, а учиться использовать их в реальных предложениях.
+
+**Цель разработки:** Практическое освоение мобильной разработки на **React Native (Expo SDK 53)**, работы с файловой системой и локальными БД (`expo-sqlite`), а также создания сложных интерфейсов с анимациями и тактильным откликом.
+
+---
+
+## ✨ Ключевые возможности
+
+- 🗂 **Карточки слов (Flashcards):** Добавление пары «слово — перевод» и их редактирование.
+- 💾 **Offline-first (Локальная база данных):** Хранение всех слов и истории на устройстве пользователя с помощью **SQLite** (`expo-sqlite`).
+- ⏱ **Интервальное повторение (Spaced Repetition):** Алгоритм показа карточек через определенные промежутки времени (1 день, 3 дня, 1 неделя, 1 месяц) для лучшего запоминания.
+- 🤖 **AI-тренажер контекста:** выбор случайного слово из хранилище -> пользователь составляет предложение -> **ИИ анализирует текст, находит грамматические ошибки и дает подробное объяснение** *(см. скриншот)*.
+
+---
+
+## 🖼 Скриншот работы AI-тренажера
+
+| Проверка предложения через ИИ |
+|:---:|
+| ![AI Practice](./assets/ai_screen.jpg) |
+
+*(В ИИ-тренажере приложение подсвечивает ошибки в составленном предложении и даёт пояснения по грамматике)*
+
+---
+
+## 🛠 Технологический стек
+
+- **Core Framework:** React Native 0.79, Expo SDK 53
+- **Language:** TypeScript
+- **Navigation:** `expo-router` (файловый роутинг) + `@react-navigation`
+- **Database:** `expo-sqlite` (локальная реляционная БД)
+- **UI & UX:** `react-native-reanimated` (анимации), `expo-haptics` (вибро-отклик), `expo-blur`, `expo-symbols`
+- **HTTP Client:** Axios (для запросов к AI API)
+
+---
+
+## 🚀 Как запустить проект локально
+
+### Предварительные требования
+Установленный **Node.js** и приложение **Expo Go** на телефоне Android (или настроенный эмулятор Android Studio).
+
+### Шаги установки
+
+1. Клонируйте репозиторий:
+   \```bash
+   git clone https://github.com/kamil2757/qwicards.git
+   cd qwicards
+   \```
+
+2. Установите зависимости:
+   \```bash
    npm install
-   ```
+   \```
 
-2. Start the app
-
-   ```bash
+3. Запустите проект через Expo:
+   \```bash
    npx expo start
-   ```
+   \```
 
-In the output, you'll find options to open the app in a
+4. Отсканируйте QR-код в терминале через приложение **Expo Go** на Android.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 🛠 Статус проекта и планы по доработке (Roadmap)
 
-## Get a fresh project
+Проект создавался как исследовательский Sandbox для изучения мобильной разработки. В текущей версии планируется:
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- [ ] Оптимизировать интервальный алгоритм повторения карточек.
+- [ ] Стабилизировать работу AI-сервиса (переход на fallback API / замена провайдера).
+- [ ] Добавить фильтрацию, поиск и удобный скроллбар в общем списке слов.
+- [ ] Выпустить сборку под iOS.
